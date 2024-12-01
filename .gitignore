@@ -173,3 +173,5 @@ pnnx*
 *.csv
 *.cache
 *.yaml
+*.bin
+*.param
