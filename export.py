@@ -82,19 +82,39 @@ import numpy as np
 # print(image_array.shape)  # 应该是 (1, 3, 640, 640)
 
 
-model=r'F:\git_all\ultralytics\best.pt'
+# model=r'F:\git_all\ultralytics\best.pt'
 
 
 
-# Load a pretrained YOLOv8n model
-model = YOLO(model)
+# # Load a pretrained YOLOv8n model
+# model = YOLO(model)
 
 
-# # Run inference on 'bus.jpg' with arguments
-# output_data=model.predict(image_path, save=True)
+# # # Run inference on 'bus.jpg' with arguments
+# # output_data=model.predict(image_path, save=True)
 
-# Export the model
-model.export(task="detect",format="onnx",imgsz=640, opset=12, optimize=True,simplify=True)
+# # Export the model
+# model.export(task="detect",format="onnx",imgsz=640, opset=12, optimize=True,simplify=True)
 
 # write_pytorch_data("input.txt", image_array, input_names)
 # write_pytorch_data("output.txt", output_data, output_names)
+
+from PIL import Image
+
+from ultralytics import YOLO
+
+# Load a pretrained YOLO11n model
+model = YOLO(r"F:\git_all\ultralytics\runs\detect\train53\weights\best.pt")
+
+# Run inference on 'bus.jpg'
+results = model([r"G:\东南大学记录\刘迪写作\2024brainInfor\image\卵巢癌HE染色\1514969 05_tile_163.png"])  # results list
+
+# Process results list
+for result in results:
+    boxes = result.boxes  # Boxes object for bounding box outputs
+    masks = result.masks  # Masks object for segmentation masks outputs
+    keypoints = result.keypoints  # Keypoints object for pose outputs
+    probs = result.probs  # Probs object for classification outputs
+    obb = result.obb  # Oriented boxes object for OBB outputs
+    result.show()  # display to screen
+    result.save(filename="result.jpg")  # save to disk
